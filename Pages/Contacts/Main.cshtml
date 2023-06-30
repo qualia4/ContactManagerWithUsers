@@ -1,0 +1,41 @@
+﻿@page
+@model ContactManagerWithUsers.Pages.Contacts.MainModel
+@{
+    ViewData["Title"] = "Main page";
+}
+<div class="name">
+    <h2>Your contacts </h2>
+</div>
+
+<div class="tableDiv">
+    <table class="table">
+        <thead class="tableHead">
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">NAME</th>
+                <th scope="col">SURNAME</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">PHONE</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contact in Model.user.contacts)
+            {
+                <tr>
+                    <th scope="row">@(Model.user.contacts.IndexOf(contact) + 1)</th>
+                    <td>@contact.Name</td>
+                    <td>@contact.Surname</td>
+                    <td>@contact.Email</td>
+                    <td>@contact.Phone</td>
+                    <td>
+                        <a class="btn btn-outline-dark" href="/Contacts/Edit?id=@contact.Id"> Edit </a>
+                        <a class="btn btn-outline-danger" href="/Contacts/Delete?id=@contact.Id"> Delete </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<a class="btn btn-outline-primary" href="/Contacts/CreateContact">Create new Contact</a>
+

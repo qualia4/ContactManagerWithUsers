@@ -1,21 +1,53 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+namespace ContactManagerWithUsers
 {
-    app.UseExceptionHandler("/Error");
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.ConfigureServices((hostContext, services) =>
+                    {
+                        services.AddSession(options =>
+                        {
+                            options.Cookie.IsEssential = true; // Make the session cookie essential
+                            options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout duration
+                        });
+
+                        services.AddRazorPages();
+                    })
+                    .Configure((hostContext, app) =>
+                    {
+                        var env = hostContext.HostingEnvironment;
+
+                        if (!env.IsDevelopment())
+                        {
+                            app.UseExceptionHandler("/Error");
+                            app.UseHsts();
+                        }
+
+                        app.UseStaticFiles();
+                        app.UseRouting();
+                        app.UseAuthorization();
+
+                        app.UseSession(); // Add this line to enable session middleware
+
+                        app.UseEndpoints(endpoints =>
+                        {
+                            endpoints.MapRazorPages();
+                        });
+                    });
+                });
+    }
 }
-app.UseStaticFiles();
 
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
-
-app.Run();

@@ -1,17 +1,16 @@
 ﻿namespace ContactManagerWithUsers.Pages.Contacts
 {
-    public class Users
+    public class User
     {
-        public int Id { get; set; }
         public string Username { get; set; }
-        private List<Contact> contacts = new List<Contact>();
+        public List<Contact> contacts = new List<Contact>();
 
-        public Users(int id, string username)
+        public User(int id, string username)
         {
             Username = username;
-            Id = id;
         }
-
+        public User()
+        { }
         public Contact GetContact(int id)
         {
             for(int i = 0; i < contacts.Count; i++)
