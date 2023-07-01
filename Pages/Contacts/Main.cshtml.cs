@@ -9,12 +9,17 @@ namespace ContactManagerWithUsers.Pages.Contacts
     {
         public User user { get; set; } = new User();
         public string username;
+
         public void OnGet()
         {
             try
             {
                 string connectionName = "Data Source=WIN-6TSL2R0LRG9\\SQLEXPRESS;Initial Catalog=ContactsManager;Integrated Security=True";
                 username = HttpContext.Session.GetString("Username");
+                if(username == null)
+                {
+                    Response.Redirect("/Index");
+                }
                 user.Username = username;
                 using SqlConnection connection = new(connectionName);
                 {
@@ -45,6 +50,7 @@ namespace ContactManagerWithUsers.Pages.Contacts
             {
                 Console.WriteLine(ex.Message);
             }
+
         }
     }
 }

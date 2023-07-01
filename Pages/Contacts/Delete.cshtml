@@ -1,4 +1,27 @@
 ﻿@page
-@model ContactManagerWithUsers.Pages.Contacts.DeleteModel
+@using System.Data.SqlClient;
 @{
+    try
+    {
+        string id = Request.Query["id"];
+        string username = HttpContext.Session.GetString("Username");
+        string connectionName = "Data Source=WIN-6TSL2R0LRG9\\SQLEXPRESS;Initial Catalog=ContactsManager;Integrated Security=True";
+        using SqlConnection connection = new(connectionName);
+        {
+            connection.Open();
+            string sql = "DELETE FROM contacts WHERE id=@id AND username=@username";
+            using SqlCommand sqlCommand = new SqlCommand(sql, connection);
+            {
+                sqlCommand.Parameters.AddWithValue("@id", id);
+                sqlCommand.Parameters.AddWithValue("@username", username);
+                sqlCommand.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    Response.Redirect("/Contacts/Main");
 }
+

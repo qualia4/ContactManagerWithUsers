@@ -1,4 +1,39 @@
 ﻿@page
 @model ContactManagerWithUsers.Pages.Contacts.CreateContactModel
 @{
+    ViewData["Title"] = "Creating new contact page";
 }
+<h2>Create new Contact</h2>
+@if (Model.errorMessage.Length > 0)
+{
+    <div class="alert alert-danger" role="alert">
+        @Model.errorMessage
+    </div>
+}
+<form method="post">
+    <div class="row">
+        <label for="inputAddress">Personal Name</label>
+        <div class="col">
+            <input type="text" class="form-control" name="name" placeholder="First name" required></input>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" name="surname" placeholder="Last name" required></input>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputAddress">Email</label>
+        <input type="email" class="form-control" name="email" placeholder="Email address" required />
+    </div>
+    <div class="form-group">
+        <label for="inputAddress">Phone</label>
+        <input type="text" class="form-control" name="phone" placeholder="Phone number" required />
+    </div>
+    @if (Model.successMessage.Length > 0)
+    {
+        <div class="alert alert-success" role="alert">
+            @Model.successMessage
+        </div>
+    }
+    <p></p>
+    <button type="submit" class="btn btn-outline-primary">Submit</button>
+</form>
