@@ -28,8 +28,7 @@ namespace ContactManagerWithUsers.Pages.Contacts
                     using SqlCommand sqlCommand = new SqlCommand(sql, connection);
                     {
                         sqlCommand.Parameters.AddWithValue("@username", user.Username);
-                        sqlCommand.Parameters.AddWithValue("@password", password);
-
+                        sqlCommand.Parameters.AddWithValue("@password", HashUtility.HashString(password));
                         sqlCommand.ExecuteNonQuery();
                     }
                 }

@@ -37,7 +37,7 @@ namespace ContactManagerWithUsers.Pages.Contacts
                             {
                                 user.Username = reader.GetString(1);
                                 usernameExists = true;
-                                if (reader.GetString(2) == password)
+                                if (reader.GetString(2) == HashUtility.HashString(password))
                                 {
                                     passwordCorrect = true;
                                 }
