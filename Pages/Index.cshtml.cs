@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ContactManagerWithUsers.Pages.Contacts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ContactManagerWithUsers.Pages
@@ -14,7 +15,7 @@ namespace ContactManagerWithUsers.Pages
 
         public void OnGet()
         {
-
+            HttpContext.Session.SetString("Username", "");
         }
     }
 }

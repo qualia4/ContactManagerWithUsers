@@ -16,7 +16,7 @@ namespace ContactManagerWithUsers.Pages.Contacts
             {
                 string connectionName = "Data Source=WIN-6TSL2R0LRG9\\SQLEXPRESS;Initial Catalog=ContactsManager;Integrated Security=True";
                 username = HttpContext.Session.GetString("Username");
-                if(username == null)
+                if(username == null || username == "")
                 {
                     Response.Redirect("/Index");
                 }

@@ -1,0 +1,28 @@
+﻿@page
+@using System.Data.SqlClient;
+@{
+    try
+    {
+        string username = HttpContext.Session.GetString("Username");
+        string connectionName = "Data Source=WIN-6TSL2R0LRG9\\SQLEXPRESS;Initial Catalog=ContactsManager;Integrated Security=True";
+        using SqlConnection connection = new(connectionName);
+        {
+            connection.Open();
+            string sql = "DELETE FROM contacts WHERE username=@username";
+            using SqlCommand sqlCommand = new SqlCommand(sql, connection);
+            {
+                sqlCommand.Parameters.AddWithValue("@username", username);
+                sqlCommand.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    if (HttpContext.Session.GetInt32("deleteUser") == 1)
+    {
+        HttpContext.Session.SetString("Username", "");
+    }
+    Response.Redirect("/Contacts/Main");
+}

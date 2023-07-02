@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
+using System.Xml;
 
 namespace ContactManagerWithUsers.Pages.Contacts
 {
@@ -18,8 +21,21 @@ namespace ContactManagerWithUsers.Pages.Contacts
         { 
             user.Username = Request.Form["username"];
             string password = Request.Form["password"];
+            string confirmPassform = Request.Form["confirmPassword"];
             try
             {
+                if(confirmPassform != password)
+                {
+                    throw new Exception("Passwords are not the same");
+                }
+                if(password.Length < 8)
+                {
+                    throw new Exception("Your password should be at least 8 characters long");
+                }
+                if(user.Username.Length < 8)
+                {
+                    throw new Exception("Your username should be at least 8 characters long");
+                }
                 string connectionName = "Data Source=WIN-6TSL2R0LRG9\\SQLEXPRESS;Initial Catalog=ContactsManager;Integrated Security=True";
                 using SqlConnection connection = new(connectionName);
                 {
@@ -35,6 +51,11 @@ namespace ContactManagerWithUsers.Pages.Contacts
             }
             catch(Exception ex)
             {
+                if (ex.Message[0] == 'V')
+                {
+                    errorMessage = "Such username already exists. Please choose another one";
+                    return;
+                }
                 errorMessage = ex.Message;
                 return;
             }

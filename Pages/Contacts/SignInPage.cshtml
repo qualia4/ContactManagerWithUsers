@@ -4,7 +4,7 @@
     ViewData["Title"] = "Signing in user";
 }
 
-<h2>Enter your data</h2>
+<h2>Enter your data to sign in</h2>
 @if (Model.errorMessage.Length > 0)
 {
     <div class="alert alert-danger" role="alert">
@@ -12,14 +12,12 @@
     </div>
 }
 <form method="post">
-    <div class="row">
-        <label for="inputUsername">Username</label>
-        <div class="col">
-            <input type="text" class="form-control" placeholder="Username" name="username" required></input>
-        </div>
-        <div class="col">
-            <input type="password" class="form-control" name="password" placeholder="Password" required> </input>
-        </div>
+    <div class="col">
+        <input type="text" class="form-control" placeholder="Username" name="username" required></input>
+    </div>
+    <p></p>
+    <div class="col">
+        <input type="password" class="form-control" name="password" placeholder="Password" required> </input>
     </div>
 
     @if (Model.successMessage.Length > 0)
